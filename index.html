@@ -7,49 +7,63 @@
         <meta name="author" content="">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- TODO: Cargar CSS Bootstrap (no es necesario el JS) -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
 
     <body>
 
-        <h1 id="autor">Autor: TU NOMBRE AQUÍ</h1>
-
-        <!-- https://vuejs.org/v2/guide/index.html -->
+                                    <h1 id="autor" class="text-center pb-5">Autor: Samy Elyes Benlacheheb</h1>
         <div id="app">
-            <!--
-                 TODO: Aplicación VueJS. Ver archivo ./js/script.js
-               - Mostrar el título de la colección dentro de un componente Jumbotron de Bootstrap https://getbootstrap.com/docs/4.0/components/jumbotron/. En su interior habrá un <h1> con id "title" que mostrará el título de la colección
-               - Para cada item: (https://vuejs.org/v2/guide/index.html#Conditionals-and-Loops)
-                 - Crear un componente item-data
-            -->
 
+            <div class="jumbotron" style="width: 100%; background-color: rgb(219, 218, 218) ; padding-top: 10px; padding-bottom: 10px;">
+                <h1 id="title" style="margin:50px;">{{ col.collection.title }}</h1>
+            </div>
+            <div class="card-group" style="margin: 0 50px 50px 50px">
+                <div class="card" :key="ind" v-for="(elemento, ind) in col.collection.items" style="background-color: rgb(246, 246, 246); margin: 10px; border-radius: 15px;">
+                    <div class="card-body">
+                        <item-data :elemento="ind" v-if="!peliculas.includes(ind)" v-bind:parametro="elemento"></item-data>
+                        <div is="edit-form" v-bind:parametro="elemento" :elemento="ind" v-else></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-
-
-        <!-- Plantilla para el componente edit-form -->
-        <script type="text/x-template" id="editForm">
-
-            <!--
-                 TODO: Componente edit-form
-            -->
-
+                        <script type="text/x-template" id="editForm">
+            <div class="card-body">
+                <div v-for="(e,iterador) in parametro.data">
+                    <h5 class="card-text">{{e.prompt}}</h5>
+                    <input v-if="iterador =! 1" type="text" class="card-text" :value="e.value" :id="e.name + elemento" v-model="e.value"/>
+                    <textarea v-else :value="e.value" rows="10" cols="60" :id="e.name + elemento" v-model="e.value"></textarea>
+                </div>
+                <br/>
+                <button v-on:click="closeForm(elemento)" class="btn btn-primary">Cerrar</button>
+            </div>
         </script>
 
-
-
-        <!-- Plantilla para el componente item-data -->
         <script type="text/x-template" id="itemData">
+            <div class="card-body">
+                <dl>
+                    <div v-for="e in parametro.data">
+                        <dt><h5 class="card-text">{{e.prompt}}</h5></dt>
+                        <dd><p clas="card-text">{{e.value}}</p></dd>
+                    </div>
+                </dl>
+                <a v-bind:href="parametro.href" class="btn btn-primary">Ver</a>
+                <button v-on:click="toggledEditFormVisibility(elemento)" class="btn btn-secondary">Editar</button>
 
-            <!--
-                 TODO: Componente item-data
-            -->
-
+            </div>
         </script>
 
 
-        <!-- TODO: Cargar librería VueJS y archivo js/script.js -->
+
+
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+        <script src="./js/script.js"></script>
 
     </body>
-
 </html>
